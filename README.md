@@ -1,29 +1,30 @@
-Sääsovellus Pythonilla
+# Sääsovellus Pythonilla
 
 Tämä sääsovellus on Pythonilla toteutettu sovellus, joka käyttää FMI Open Data -rajapintaa säätietojen hakemiseen. Sovellus tallentaa säätiedot SQL-tietokantaan ja tarjoaa yksinkertaisen web-käyttöliittymän tietojen näyttämiseen.
 Toiminta
 
-    Säädatan haku: Sovellus käyttää FMI Open Data -rajapintaa hakeakseen ajantasaista säätietoa eri havaintoasemilta.
+• Säädatan haku: Sovellus käyttää FMI Open Data -rajapintaa hakeakseen ajantasaista säätietoa eri havaintoasemilta.
 
-    Tietokanta: Haetut säätiedot tallennetaan SQL-tietokantaan, jotta niitä voidaan käsitellä ja näyttää joustavasti.
+• Tietokanta: Haetut säätiedot tallennetaan SQL-tietokantaan, jotta niitä voidaan käsitellä ja näyttää joustavasti.
 
-    Web-käyttöliittymä: Sovellus tarjoaa yksinkertaisen web-käyttöliittymän, jossa käyttäjä voi nähdä tallennetut säätiedot taulukkomuodossa.
+• Web-käyttöliittymä: Sovellus tarjoaa yksinkertaisen web-käyttöliittymän, jossa käyttäjä voi nähdä tallennetut säätiedot taulukkomuodossa.
 
 Asennus
 
-    Kloonaa repository.
+• Kloonaa repository.
 
-    Asenna tarvittavat kirjastot: pip install -r requirements.txt.
+• Asenna tarvittavat kirjastot: pip install -r requirements.txt.
 
-    Aseta SQL-tietokantaan liittyvät tiedot config.py-tiedostoon.
+• Aseta SQL-tietokantaan liittyvät tiedot config.py-tiedostoon.
 
-    Suorita sovellus: python main_app.py.
+• Suorita sovellus: python main_app.py.
 
-    Avaa selain ja siirry osoitteeseen http://localhost:5000 nähdäksesi säätiedot.
+• Avaa selain ja siirry osoitteeseen http://localhost:5000 nähdäksesi säätiedot.
 
 Lisätiedot
 
-Lisätietoja sovelluksen toiminnasta, kontribuoinnista ja lisenssistä löydät README.md-tiedostosta.
+• Lisätietoja sovelluksen toiminnasta, kontribuoinnista ja lisenssistä löydät README.md-tiedostosta.
+
 Huomautus
 
-Sovellus on tarkoitettu opetuskäyttöön, ja sen tulee noudattaa FMI Open Data -palvelun käyttöehtoja.
+• Sovellus on tarkoitettu opetuskäyttöön, ja sen tulee noudattaa FMI Open Data -palvelun käyttöehtoja.
