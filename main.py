@@ -35,28 +35,38 @@ sounding.wind_directions  # Numpy array of measured wind directions [°]
 # print(sounding.name)
 
 
-obs = download_stored_query("fmi::observations::weather::multipointcoverage",
-                            args=["place=Lappeenranta"])
+#obs = download_stored_query("fmi::observations::weather::multipointcoverage",
+                            #args=["place=Lappeenranta"])
 # Tulosta saatavilla olevat tiedot
-print(sorted(obs.data.keys()))
+#print(sorted(obs.data.keys()))
 # Etsi viimeisin aikasäde
-latest_tstep = max(obs.data.keys())
-print(sorted(obs.data[latest_tstep].keys()))
+#latest_tstep = max(obs.data.keys())
+#print(sorted(obs.data[latest_tstep].keys()))
 # Tulosta havaintoaseman tiedot
-print(sorted(obs.data[latest_tstep]["Lappeenranta Lepola"].keys()))
+#print(sorted(obs.data[latest_tstep]["Lappeenranta Lepola"].keys()))
 
 # Tulosta tiettyjä sääparametreja Lappeenranta Lepola
-print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Wind speed"])
-print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Air temperature"])
-print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Cloud amount"])
-print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Relative humidity"])
-print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Snow depth"])
+#print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Wind speed"])
+#print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Air temperature"])
+#print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Cloud amount"])
+#print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Relative humidity"])
+#print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Snow depth"])
+
+START_TIME = dt.datetime(1959,1,31,0,0,0)
+END_TIME = dt.datetime(1960,1,31,0,0,0)
+ARGS =["place=Lappeenranta",
+       "starttime=" + START_TIME.isoformat(timespec="auto"),
+       "endtime=" + END_TIME.isoformat(timespec="auto")]
+
+obs = download_stored_query("fmi::observations::weather::daily::multipointcoverage",
+                            args=ARGS)
 
 # Uusi for-loop kaikkien havaintoasemien viimeisimpien tietojen tulostamiseksi
-for station, data in obs.data[latest_tstep].items():
-    print(f"\nStation: {station}")
-    for variable, value in data.items():
-        print(f"{variable}: {value}")
+for time, data in obs.data.items():
+        print(f"\nTime: {time}")
+        for variable, value in data.items():
+            print(f"{variable}: {value}")
+
 
 # Yhdistä SQL Server -tietokantaan
 server = ' '
@@ -90,12 +100,26 @@ cursor.execute('''
 connection.commit()
 
 # Lisää tiedot tietokantaan
-for station, data in obs.data[latest_tstep].items():
-    wind_speed = float(data.get("Wind speed", {}).get("value", 0.0))
-    air_temperature = float(data.get("Air temperature", {}).get("value", 0.0))
-    cloud_amount = int(data.get("Cloud amount", {}).get("value", 0))
-    relative_humidity = float(data.get("Relative humidity", {}).get("value", 0.0))
-    snow_depth = float(data.get("Snow depth", {}).get("value", 0.0))
+wind_speed_values = []
+air_temperature_values = []
+cloud_amount_values = []
+relative_humidity_values = []
+snow_depth_values = []
+
+for time, data in obs.data.items():
+    for station, value in data.items():
+        wind_speed = float(value.get("Wind speed", {}).get("value", 0.0))
+        air_temperature = float(value.get("Air temperature", {}).get("value", 0.0))
+        cloud_amount = int(value.get("Cloud amount", {}).get("value", 0))
+        relative_humidity = float(value.get("Relative humidity", {}).get("value", 0.0))
+        snow_depth = float(value.get("Snow depth", {}).get("value", 0.0))
+
+        # Append values to lists
+        wind_speed_values.append(wind_speed)
+        air_temperature_values.append(air_temperature)
+        cloud_amount_values.append(cloud_amount)
+        relative_humidity_values.append(relative_humidity)
+        snow_depth_values.append(snow_depth)
 
     # Käsittele 'nan'-arvot ennen lisäämistä tietokantaan
     wind_speed = wind_speed if not np.isnan(wind_speed) else 0.0
@@ -109,7 +133,7 @@ for station, data in obs.data[latest_tstep].items():
         cursor.execute('''
             INSERT INTO säädata (asema, aika, tuulen_nopeus, ilmanlämpötila, pilvisyys, ilmankosteus, lumensyvyys)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-        ''', (station, latest_tstep.strftime('%Y-%m-%d %H:%M:%S'), wind_speed, air_temperature, cloud_amount,
+        ''', (station, time.strftime('%Y-%m-%d %H:%M:%S'), wind_speed, air_temperature, cloud_amount,
               relative_humidity, snow_depth))
 
     except Exception as e:
