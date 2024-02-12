@@ -12,48 +12,8 @@ start_time = start_time.isoformat(timespec="seconds") + "Z"
 end_time = end_time.isoformat(timespec="seconds") + "Z"
 # -> 2020-07-07T13:00:00Z
 
-snd = download_stored_query("fmi::observations::weather::sounding::multipointcoverage",
-                            ["place=Sodankylä"])
-
-sounding = snd.soundings[0]
-sounding.name  # Name of the sounding station
-sounding.id  # Station ID of the sounding station
-sounding.nominal_time  # Nominal time of the sounding
-sounding.start_time  # Actual start time of the sounding
-sounding.end_time  # Actual end time of the sounding
-sounding.lats  # Numpy array of the measurement location latitudes [degrees]
-sounding.lons  # Numpy array of the measurement location longitudes [degrees]
-sounding.altitudes  # Numpy array of the measurement location altitudes [m]
-sounding.times  # Numpy array of the measurement times [datetime]
-sounding.pressures  # Numpy array of measured pressures [hPa]
-sounding.temperatures  # Numpy array of measured temperatures [°C]
-sounding.dew_points  # Numpy array of measured dew points [°C]
-sounding.wind_speeds  # Numpy array of measured wind speeds [m/s]
-sounding.wind_directions  # Numpy array of measured wind directions [°]
-
-# print(sounding.temperatures)
-# print(sounding.name)
-
-
-#obs = download_stored_query("fmi::observations::weather::multipointcoverage",
-                            #args=["place=Lappeenranta"])
-# Tulosta saatavilla olevat tiedot
-#print(sorted(obs.data.keys()))
-# Etsi viimeisin aikasäde
-#latest_tstep = max(obs.data.keys())
-#print(sorted(obs.data[latest_tstep].keys()))
-# Tulosta havaintoaseman tiedot
-#print(sorted(obs.data[latest_tstep]["Lappeenranta Lepola"].keys()))
-
-# Tulosta tiettyjä sääparametreja Lappeenranta Lepola
-#print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Wind speed"])
-#print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Air temperature"])
-#print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Cloud amount"])
-#print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Relative humidity"])
-#print(obs.data[latest_tstep]["Lappeenranta Lepola"]["Snow depth"])
-
-START_TIME = dt.datetime(1959,1,31,0,0,0)
-END_TIME = dt.datetime(1960,1,31,0,0,0)
+START_TIME = dt.datetime(2023,1,1,0,0,0)
+END_TIME = dt.datetime(2023,12,31,0,0,0)
 ARGS =["place=Lappeenranta",
        "starttime=" + START_TIME.isoformat(timespec="auto"),
        "endtime=" + END_TIME.isoformat(timespec="auto")]
