@@ -3,12 +3,14 @@ import datetime as dt
 import pyodbc
 import numpy as np
 
+# Vaihda START_TIME ja END_TIME haluttuihin päivämääriin kyselyä varten
 START_TIME = dt.datetime(2023, 12, 1, 0, 0, 0)
 END_TIME = dt.datetime(2023, 12, 30, 0, 0, 0)
 ARGS = ["place=Lappeenranta",
         "starttime=" + START_TIME.isoformat(timespec="auto"),
         "endtime=" + END_TIME.isoformat(timespec="auto")]
 
+# Kyselyt löytyvät osoitteesta (https://www.ilmatieteenlaitos.fi/tallennetut-kyselyt)
 obs = download_stored_query("fmi::observations::weather::daily::multipointcoverage",
                             args=ARGS)
 
@@ -18,10 +20,10 @@ for time, data in obs.data.items():
     for variable, value in data.items():
         print(f"{variable}: {value}")
 
-# Yhdistä SQL Server -tietokantaan
+# Yhdistä SQL Server -tietokantaan. Lisää database ja username kohtiin omat kirjautumistiedot
 server = ' '
-database = 'tietokanta'
-username = 'DESKTOP-368NHB7\\sampp'
+database = ''
+username = ''
 password = ''
 driver = '{ODBC Driver 17 for SQL Server}'
 
