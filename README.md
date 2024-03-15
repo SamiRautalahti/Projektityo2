@@ -15,16 +15,8 @@ Asennus
 
 • Asenna tarvittavat kirjastot: pip install -r requirements.txt.
 
-• Aseta SQL-tietokantaan liittyvät tiedot config.py-tiedostoon.
+• Aseta SQL-tietokantaan liittyvät tiedot main.py:n riveille 21-26
 
 • Suorita sovellus: python main_app.py.
 
-• Avaa selain ja siirry osoitteeseen http://localhost:5000 nähdäksesi säätiedot.
-
-Lisätiedot
-
-• Lisätietoja sovelluksen toiminnasta, kontribuoinnista ja lisenssistä löydät README.md-tiedostosta.
-
-Huomautus
-
-• Sovellus on tarkoitettu opetuskäyttöön, ja sen tulee noudattaa FMI Open Data -palvelun käyttöehtoja.
+• Avaa SQL-tietokanta Power BI:ssä raporttia/visualisointia varten.
