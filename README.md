@@ -7,7 +7,6 @@ Toiminta
 
 • Tietokanta: Haetut säätiedot tallennetaan SQL-tietokantaan, jotta niitä voidaan käsitellä ja näyttää joustavasti.
 
-• Web-käyttöliittymä: Sovellus tarjoaa yksinkertaisen web-käyttöliittymän, jossa käyttäjä voi nähdä tallennetut säätiedot taulukkomuodossa.
 
 Asennus
 
